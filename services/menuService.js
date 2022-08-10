@@ -1,11 +1,12 @@
 const menuDao = require('../models/menuDao')
-const { CreateError } = require('../utils/Exceptions')
+const { CreateError }   = require('../utils/Exceptions')
+const { isPositiveInt } = require('../utils/validators')
 
 const getMenus = async (offset, limit) => {
     offset = offset ? offset : 0
     limit  = limit ? limit : 5 
     
-    if (isNaN(+offset) || isNaN(+limit)){
+    if ( isPositiveInt([offset, limit]) ){
         throw new CreateError(400,'Invalid Query')
     }
 
@@ -36,8 +37,7 @@ const getMenus = async (offset, limit) => {
 }
 
 const getMenu = async (menuId) => {
-    if (isNaN(+menuId%1)){throw new CreateError(400, 'Invalid menuId')} // menuId가 int형이 아닐경우 에러반환
-    
+    if (isPositiveInt([menuId]) ){throw new CreateError(400, 'Invalid menuId')}
     let { menus, items, tags } = await menuDao.getMenu(menuId)
     let result = menus[0]
     
