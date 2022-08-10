@@ -35,4 +35,23 @@ const getMenus = async (offset, limit) => {
     return result
 }
 
-module.exports = { getMenus }
+const getMenu = async (menuId) => {
+    if (isNaN(+menuId%1)){throw new CreateError(400, 'Invalid menuId')} // menuId가 int형이 아닐경우 에러반환
+    
+    let { menus, items, tags } = await menuDao.getMenu(menuId)
+    let result = menus[0]
+    
+    result.items = []
+    for(i=0;i<items.length;i++){
+        result.items.push(items[i])
+    }
+    
+    result.tags = []
+    for(i=0;i<tags.length;i++){
+        result.tags.push(tags[i])
+    }
+
+    return result
+}
+
+module.exports = { getMenus, getMenu }
