@@ -9,7 +9,7 @@ CREATE TABLE menus (
     tag_id INT UNSIGNED,
     created_at TIMESTAMP DEFAULT current_timestamp NOT NULL,
     updated_at TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp NOT NULL,
-    deleted_at TIMESTAMP NOT NULL,
+    deleted_at TIMESTAMP,
     is_deleted TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL,
 
     PRIMARY KEY (id),
