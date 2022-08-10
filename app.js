@@ -6,7 +6,6 @@ const app     = express()
 
 dotenv.config()
 
-const mysql = require('./config/Database/mysql')
 const PORT  = process.env.PORT
 
 app.use(cors())
@@ -14,6 +13,6 @@ app.use(logger('combined'));
 app.use(express.json());
 
 const indexRouter = require('./routes')
-app.use('/', indexRouter);
+app.use('', indexRouter);
 
 app.listen(PORT,()=>{console.log(`Running on port : ${PORT}`)})
