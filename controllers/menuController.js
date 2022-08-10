@@ -8,7 +8,7 @@ const getMenus = async (req, res) => {
 
         return res.status(200).json({'menus' : result})
 
-    }catch(err){console.log(err)
+    }catch(err){
         if(err.isCustom){
                 return res.status(err.status).json({'message' : err.message})
             }

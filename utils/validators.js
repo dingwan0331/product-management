@@ -26,4 +26,15 @@ class Validators{
     }
 }
 
-module.exports = { Validators }
+isPositiveInt = (values)=>{
+    let result = false
+    
+    values.forEach(element => {
+        if (element<0 || element%1){ result = true; return }
+        if (isNaN(+element)){result = true; return }
+    });
+
+    return result
+}
+
+module.exports = { Validators, isPositiveInt }
