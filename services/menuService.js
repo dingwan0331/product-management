@@ -1,7 +1,7 @@
 const menuDao = require('../models/menuDao')
 const { CreateError } = require('../utils/Exceptions')
 
-const getmenus = async (offset, limit) => {
+const getMenus = async (offset, limit) => {
     offset = offset ? offset : 0
     limit  = limit ? limit : 5 
     
@@ -9,7 +9,7 @@ const getmenus = async (offset, limit) => {
         throw new CreateError(400,'Invalid Query')
     }
 
-    const { menus, items, tags } = await menuDao.getmenus(offset, limit)
+    const { menus, items, tags } = await menuDao.getMenus(offset, limit)
     
     let result = []
     
@@ -35,4 +35,4 @@ const getmenus = async (offset, limit) => {
     return result
 }
 
-module.exports = { getmenus }
+module.exports = { getMenus }
