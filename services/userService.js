@@ -24,8 +24,8 @@ const signin = async (email, password) =>{
     }
     
     const payLoad    = {'id' : userData[0].id}
-    const SCERET_KEY = process.env.SCERET_KEY
-    const token      = jwt.sign(payLoad, SCERET_KEY)
+    const SECRET_KEY = process.env.SECRET_KEY
+    const token      = jwt.sign(payLoad, SECRET_KEY)
 
     return token
 }
