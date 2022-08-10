@@ -12,4 +12,15 @@ const getUser = async (email) => {
     }catch(err){throw new CreateError(500,'Database Error')}
 }
 
-module.exports = { getUser }
+const checkUser = async (userId) => {
+    try{
+        return await myDataSource.query(
+            `SELECT users.id,
+            roles.name AS role,
+            users.is_deleted AS isDelete
+            FROM users LEFT JOIN roles ON users.role_id=roles.id
+            WHERE users.id=${userId};`
+        )
+    }catch(err){console.log(err);throw new CreateError(500,'Database Error')}
+}
+module.exports = { getUser, checkUser }

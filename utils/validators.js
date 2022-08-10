@@ -27,11 +27,11 @@ class Validators{
 }
 
 isPositiveInt = (values)=>{
-    let result = false
+    let result = true
     
     values.forEach(element => {
-        if (element<0 || element%1){ result = true; return }
-        if (isNaN(+element)){result = true; return }
+        if (element<0 || element%1){ result = false; return }
+        if (isNaN(+element)){result = false; return }
     });
 
     return result

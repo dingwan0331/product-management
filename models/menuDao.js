@@ -1,6 +1,8 @@
 const myDataSource    = require('../config/database/mysql')
 const { CreateError } = require('../utils/Exceptions')
 
+const dbError = new CreateError(500,'Database Error')
+
 const getMenus = async (offset, limit) => {
     try{
         const menus = await myDataSource.query(
@@ -50,7 +52,7 @@ const getMenus = async (offset, limit) => {
         )
         return { menus, items, tags}
 
-    }catch(err){throw new CreateError(500,'Database Error')}
+    }catch(err){ throw dbError }
 }
 
 const getMenu = async (menuId) => {
@@ -97,9 +99,48 @@ const getMenu = async (menuId) => {
         return { menus, items, tags}
 
     }catch(err){
-        if (err.isCustom){ throw err }
-        throw new CreateError(500,'Database Error')}
+        if (err.isCustom){ throw err }else{ throw dbError } 
+    }
 }
 
+const createMenu = async ( categoryId, name, description, badgeId, items, tagIds ) => {
+    try{
+        await myDataSource.query(`START TRANSACTION`)
+        // menuData 생성
+        const menuRow = await myDataSource.query(
+            `INSERT INTO menus (category_id, name, description, badge_id) values (?,?,?,?)`,
+            [categoryId, name, description, badgeId]
+            )
+            
+        const menuId = menuRow.insertId 
+        
+        let menuTagQuery
+        
+        // tagIds가 있을시 tags bulk create 쿼리문작성
+        if (tagIds){
+            menuTagQuery = `INSERT INTO menu_tag (menu_id, tag_id) values `
+            for (i=0; i < tagIds.length; i++){
+                menuTagQuery += `(${menuId}, ${tagIds[i]}),`
+            }
+        }
+        // 마지막 ',' 제거후 쿼리문 실행
+        await myDataSource.query(menuTagQuery.slice(0,-1))
+        
+        // items bulk create 쿼리문작성
+        let itemsQuery = `INSERT INTO items (menu_id, size_id, price) values`
+        for (i=0; i < items.length; i++){
+            itemsQuery += `(${menuId}, ${items[i].sizeId}, ${items[i].price}),`
+        }
+        // 마지막 ',' 제거후 쿼리문 실행
+        await myDataSource.query(itemsQuery.slice(0,-1))
+        
+        await myDataSource.query('COMMIT;')
+        return 
+    
+    }catch(err){
+        await myDataSource.query('ROLLBACK;')
+        throw dbError
+    }
+}
 
-module.exports = { getMenus, getMenu }
+module.exports = { getMenus, getMenu, createMenu }

@@ -6,7 +6,7 @@ const getMenus = async (offset, limit) => {
     offset = offset ? offset : 0
     limit  = limit ? limit : 5 
     
-    if ( isPositiveInt([offset, limit]) ){
+    if ( !isPositiveInt([offset, limit]) ){
         throw new CreateError(400,'Invalid Query')
     }
 
@@ -37,7 +37,7 @@ const getMenus = async (offset, limit) => {
 }
 
 const getMenu = async (menuId) => {
-    if (isPositiveInt([menuId]) ){throw new CreateError(400, 'Invalid menuId')}
+    if ( !isPositiveInt([menuId]) ){throw new CreateError(400, 'Invalid menuId')}
     let { menus, items, tags } = await menuDao.getMenu(menuId)
     let result = menus[0]
     
@@ -54,4 +54,29 @@ const getMenu = async (menuId) => {
     return result
 }
 
-module.exports = { getMenus, getMenu }
+const createMenu = async (data) => {
+    const { categoryId, name, description, badgeId, items, tagIds } = data
+    
+    if(!name){throw new CreateError(400, 'Invalid Data')}
+
+    let IntData = [categoryId,badgeId]
+    
+    // items의 int형 데이터와 price 숫자형 검사
+    for (i=0;i < items.length; i++){
+        IntData.push(items[i].sizeId)
+        // price가 양수인지 판별
+        if(isNaN(+items[i].price) || items[i] < 0){
+            throw new CreateError(400, 'Invalid Data')
+        }
+    }
+
+    tagIds.forEach(element =>{ IntData.push(element) })
+
+    if (!isPositiveInt(IntData)){ throw new CreateError(400, 'Invalid Data') }
+
+    const row = await menuDao.createMenu( categoryId, name, description, badgeId, items, tagIds )
+    
+    return
+}
+
+module.exports = { getMenus, getMenu, createMenu }
