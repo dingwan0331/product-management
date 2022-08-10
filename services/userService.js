@@ -23,7 +23,7 @@ const signin = async (email, password) =>{
         throw new CreateError(400,'Invalid Password')
     }
     
-    const payLoad    = {'id' : userData[0].id, 'role' : userData[0].role}
+    const payLoad    = {'id' : userData[0].id}
     const SCERET_KEY = process.env.SCERET_KEY
     const token      = jwt.sign(payLoad, SCERET_KEY)
 
