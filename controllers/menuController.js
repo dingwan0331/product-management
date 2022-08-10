@@ -1,10 +1,10 @@
 const menuService = require('../services/menuService')
 
-const getmenus = async (req, res) => {
+const getMenus = async (req, res) => {
     try{
         let { offset, limit} = req.query
 
-        const result = await menuService.getmenus(offset, limit)
+        const result = await menuService.getMenus(offset, limit)
 
         res.status(200).json({'menus' : result})
 
@@ -16,4 +16,4 @@ const getmenus = async (req, res) => {
     }
 }
 
-module.exports = { getmenus }
+module.exports = { getMenus }

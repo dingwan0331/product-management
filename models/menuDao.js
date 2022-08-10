@@ -1,7 +1,7 @@
 const myDataSource    = require('../config/database/mysql')
 const { CreateError } = require('../utils/Exceptions')
 
-const getmenus = async (offset, limit) => {
+const getMenus = async (offset, limit) => {
     try{
         const menus = await myDataSource.query(
             `SELECT 
@@ -53,4 +53,4 @@ const getmenus = async (offset, limit) => {
     }catch(err){throw new CreateError(500,'Database Error')}
 }
 
-module.exports = { getmenus }
+module.exports = { getMenus }
