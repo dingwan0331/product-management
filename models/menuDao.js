@@ -148,15 +148,9 @@ const deleteMenus = async (menuIds) => {
     try{
         const now = timeTranslator(new Date())
         await myDataSource.query(`START TRANSACTION`)
-        let row = await myDataSource.query(`SELECT id FROM menus WHERE is_deleted=0`)
-        let ids = []
-        
-        row.forEach(element => { ids.push(element.id)})
+        let row = await myDataSource.query(`SELECT Sum(is_deleted) AS testSum FROM menus WHERE id IN (${menuIds})`)
 
-        menuIds.forEach(element => { 
-            if(!ids.includes(element.toString())){
-                throw new CreateError(400, 'That is Already deleted')
-            }})
+        if(+row[0].testSum){throw new CreateError(400, 'That is Already deleted')}
 
         await myDataSource.query(
             `UPDATE menus SET is_deleted=1, deleted_at="${now}" WHERE id IN (${menuIds})`
