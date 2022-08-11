@@ -1,5 +1,6 @@
-const myDataSource    = require('../config/database/mysql')
-const { CreateError } = require('../utils/Exceptions')
+const myDataSource       = require('../config/database/mysql')
+const { CreateError }    = require('../utils/Exceptions')
+const { timeTranslator } = require('../utils/timeTranslators')
 
 const dbError = new CreateError(500,'Database Error')
 
@@ -143,4 +144,32 @@ const createMenu = async ( categoryId, name, description, badgeId, items, tagIds
     }
 }
 
-module.exports = { getMenus, getMenu, createMenu }
+const deleteMenus = async (menuIds) => {
+    try{
+        const now = timeTranslator(new Date())
+        await myDataSource.query(`START TRANSACTION`)
+        let row = await myDataSource.query(`SELECT id FROM menus WHERE is_deleted=0`)
+        let ids = []
+        
+        row.forEach(element => { ids.push(element.id)})
+
+        menuIds.forEach(element => { 
+            if(!ids.includes(element.toString())){
+                throw new CreateError(400, 'That is Already deleted')
+            }})
+
+        await myDataSource.query(
+            `UPDATE menus SET is_deleted=1, deleted_at="${now}" WHERE id IN (${menuIds})`
+        )
+
+        await myDataSource.query('COMMIT')
+
+        return
+
+    } catch(err){
+        await myDataSource.query('ROLLBACK')
+        if (err.isCustom){ throw err }else{ throw dbError } 
+    }
+}
+
+module.exports = { getMenus, getMenu, createMenu, deleteMenus }
