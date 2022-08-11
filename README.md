@@ -60,8 +60,10 @@
 
 
 # ERD
-<img width="818" alt="image" src="https://user-images.githubusercontent.com/100751719/184083190-dede668f-fc1f-498f-9bac-9eeef4a67e90.png">
-# End Poin
+<img width="818" alt="image" src="https://user-images.githubusercontent.com/100751719/184083190-dede668f-fc1f-498f-9bac-9eeef4a67e90.png">     
+
+# End Point
+
 <img width="740" alt="image" src="https://user-images.githubusercontent.com/100751719/184083243-3be2ffe5-62f6-4165-a520-bfe937b6e02a.png">
 
 # API Docs
