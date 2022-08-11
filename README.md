@@ -59,9 +59,13 @@
 </table>
 
 
-### ERD
-![]()
+# ERD
+<img width="818" alt="image" src="https://user-images.githubusercontent.com/100751719/184083190-dede668f-fc1f-498f-9bac-9eeef4a67e90.png">
+# End Poin
+<img width="740" alt="image" src="https://user-images.githubusercontent.com/100751719/184083243-3be2ffe5-62f6-4165-a520-bfe937b6e02a.png">
 
+# API Docs
+[Link](https://grey-crater-811570.postman.co/workspace/My-Workspace~1303e0ea-2786-4902-8534-ef9bb3e7ba17/documentation/21516218-3f811f62-f42c-422f-8ac7-41be73881633)
 ## 🔖 Reference
 - 실무수준의 프로젝트이지만 학습용으로 만들었기 때문에 이 코드를 활용하여 이득을 취하거나 무단 배포할 경우 법적으로 문제될 수 있습니다.
 
