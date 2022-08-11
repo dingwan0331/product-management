@@ -79,4 +79,12 @@ const createMenu = async (data) => {
     return
 }
 
-module.exports = { getMenus, getMenu, createMenu }
+const deleteMenus = async (menuIds) => {
+    if(!isPositiveInt(menuIds)){ throw new  CreateError(400, 'Invalid menuIds') }
+
+    await menuDao.deleteMenus(menuIds)
+    
+    return
+}
+
+module.exports = { getMenus, getMenu, createMenu, deleteMenus }

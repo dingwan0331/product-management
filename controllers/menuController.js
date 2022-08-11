@@ -53,4 +53,18 @@ const createMenu = async (req, res) => {
     }
 }
 
-module.exports = { getMenus, getMenu, createMenu }
+const deleteMenus = async (req, res) => {
+    try{
+        let { menuIds } = req.query
+        menuIds = JSON.parse(menuIds)
+
+        if ( menuIds == undefined || !menuIds.length || !Array.isArray(menuIds))
+            { return res.status(400).json({'message' : 'Invalid menuIds'}) }
+        
+        await menuService.deleteMenus(menuIds)
+
+        return res.sendStatus(204)
+    }catch(err){return res.status(err.status).json({'message' : err.message})}
+}
+
+module.exports = { getMenus, getMenu, createMenu, deleteMenus }
