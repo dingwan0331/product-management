@@ -1,18 +1,20 @@
-const express = require('express')
-const cors    = require('cors')
-const logger  = require('morgan')
-const dotenv  = require("dotenv")
-const app     = express()
+const express = require("express");
+const cors = require("cors");
+const logger = require("morgan");
+const dotenv = require("dotenv");
+const app = express();
 
-dotenv.config()
+dotenv.config();
 
-const PORT  = process.env.PORT
+const PORT = process.env.PORT;
 
-app.use(cors())
-app.use(logger('combined'));
+app.use(cors());
+app.use(logger("combined"));
 app.use(express.json());
 
-const indexRouter = require('./routes')
-app.use('', indexRouter);
+const indexRouter = require("./routes");
+app.use("", indexRouter);
 
-app.listen(PORT,()=>{console.log(`Running on port : ${PORT}`)})
+app.listen(PORT, () => {
+  console.log(`Running on port : ${PORT}`);
+});
